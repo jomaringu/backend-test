@@ -1,1 +1,51 @@
-Your instructions for this page are in the README.md. Enjoy!
+
+<div style="margin-left: 30px;">
+
+	<h1>TEST 1</h1>
+	
+	<h3>Exercise 1:</h3>
+	
+	<div style="margin-left: 30px;">
+		<% unless @results1.empty? %>
+		   <% @results1.each do |result| %>
+		      <%=result.name%> - <%=result.crypted_name%> - <%=result.groups_count%> - <%=result.groups%><br/>
+		   <% end %>
+		<% end %>
+	</div>
+	
+	<h3>Exercise 2:</h3>
+	
+	<div style="margin-left: 30px;">
+		<% unless @results2.empty? %>
+		   <% @results2.each do |result| %>
+		      <%=result.group_name%>, <%=result.user_name%>, <%=result.groups_count%> <br/>
+		   <% end %>
+		<% end %>
+	</div>
+	
+	<h3>Exercise 3:</h3>
+	
+	<div style="margin-left: 30px;">
+		<table style="border: 1px solid black; width: 50%; border-collapse: collapse; text-align: left;">
+			<thead>
+				<th>group</th>
+				<th>name</th>
+				<th>views</th>
+				<th>percent_of_group_views</th>
+			</thead>
+			<tbody>
+				<% unless @results3.empty? %>
+				   <% @results3.each do |result| %>
+				   		<tr>
+				      		<td><%=result.group%></td>
+				      		<td><%=result.name%></td> 
+				      		<td><%=result.views%></td>
+				      		<td><%=result.percent_of_group_views%></td>
+						</tr>
+				   <% end %>
+				<% end %>		
+			<tbody>
+		<table>
+	</div>
+
+</div>
