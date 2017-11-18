@@ -92,7 +92,7 @@ class HomeController < ApplicationController
                                 INNER JOIN groups as gr ON gr.id = gu.group_id)
                                 INNER JOIN maps as m ON m.user_id = u.id)
                             GROUP BY (gr.name, u.name)
-                            ORDER BY gr.name, percent_of_group_views;");
+                            ORDER BY gr.name ASC, percent_of_group_views DESC;");
 
     @results3 = []
 
