@@ -1,6 +1,8 @@
 BackendTest::Application.routes.draw do
   root :to => 'home#index'
   
+  get 'tokens/', to: 'user#index'
+  
   get 'user/:id/api/v1/tables/:table_id/records/:cartodb_id', to: 'user#show'
   get 'u/:id/api/v1/tables/:table_id/records/:cartodb_id', to: 'user#show'
   

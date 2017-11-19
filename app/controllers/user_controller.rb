@@ -11,6 +11,12 @@ class UserController < ApplicationController
   include ExceptionHandler
   include Response
 
+  # Just for testing purpose
+  def index
+    @token = ActiveRecord::Base.connection.execute("select * from tokens where permission='"+params[:permission]+"' limit 1;").first;
+    json_response(@token,:ok)
+  end
+    
   #get    '(/user/:user_domain)(/u/:user_domain)/api/v1/tables/:table_id/records/:id'         => 'records#show',    as: :api_v1_tables_records_show,   constraints: { table_id: /[^\/]+/ }
   def show
     checkPermissions(params, 'R')
@@ -31,19 +37,27 @@ class UserController < ApplicationController
     checkPermissions(params, 'RW')
   end
 
-  def checkPermissions(params, permission)
+  def checkPermissions(params, required_permission)
     print '*****************************'
-    print permission
+    print required_permission
     print '*****************************'
     
     t = Token.find(params[:user_token])
       
-    if( t.table_id == params[:table_id] && t.permission == permission)
+    granted = false
+    if( t.permission == required_permission )
+      granted = true
+    end
+    if( t.permission == 'RW' && required_permission == 'R')
+      granted = true
+    end
+      
+    if( t.table_id == params[:table_id] && granted )
       response = t
-      print 'User ['+params[:id]+ '] has [' + permission + '] permissions to access table ['+ t.table_id + ']'
+      print 'User ['+params[:id]+ '] has [' + required_permission + '] permissions to access table ['+ t.table_id + ']'
       status = :ok # 200
     else
-      response = '{"message" : "User '+params[:id]+ ' has not ' + permission + ' permissions to access table '+ params[:table_id] + '"}'
+      response = '{"message" : "User '+params[:id]+ ' has not ' + required_permission + ' permissions to access table '+ params[:table_id] + '"}'
       print response
       status = :forbidden # 403
     end
